@@ -6,30 +6,22 @@
 <title>股票交易戰術指南 · 投影片</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:        #E2E8F0;
-    --grid:      #D2DCE8;
-    --surface:   rgba(255,255,255,0.80);
-    --ink:       #2C3A4A;
-    --muted:     #7A8EA6;
-    --hairline:  #BEC9D6;
-    --brand:     #6A8DAB;
-    --brand-ink: #456882;
-    --brand-soft:#D3E3EE;
-    --shadow:    0 1px 3px rgba(44,58,74,.06), 0 14px 36px -10px rgba(44,58,74,.16);
+    --bg:#E2E8F0; --grid:#D2DCE8; --surface:rgba(255,255,255,0.80);
+    --ink:#2C3A4A; --muted:#7A8EA6; --hairline:#BEC9D6;
+    --brand:#6A8DAB; --brand-ink:#456882; --brand-soft:#D3E3EE;
+    --shadow:0 1px 3px rgba(44,58,74,.06),0 14px 36px -10px rgba(44,58,74,.16);
+    --slide-bg:#18192C;
   }
   *{ box-sizing:border-box; margin:0; padding:0; }
   html,body{
     height:100%; font-family:"Inter",system-ui,"Noto Sans TC",sans-serif;
     color:var(--ink); -webkit-font-smoothing:antialiased;
     background-color:var(--bg);
-    background-image:
-      linear-gradient(var(--grid) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
-    background-size:28px 28px;
-    background-attachment:fixed;
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:28px 28px; background-attachment:fixed;
   }
 
   /* ── Top bar ── */
@@ -38,7 +30,7 @@
     padding:14px 24px; background:var(--surface);
     border-bottom:1px solid var(--hairline);
     backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
-    position:sticky; top:0; z-index:10;
+    position:sticky; top:0; z-index:20;
   }
   .back-btn{
     display:inline-flex; align-items:center; gap:7px;
@@ -53,61 +45,102 @@
     font-family:"Fraunces",serif; font-weight:500; font-size:18px;
     flex:1; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
   }
-  .counter-badge{
-    font-family:"JetBrains Mono",monospace; font-size:12.5px;
-    color:var(--muted); white-space:nowrap;
-  }
+  .counter-badge{ font-family:"JetBrains Mono",monospace; font-size:12.5px; color:var(--muted); white-space:nowrap; }
 
-  /* ── Main stage ── */
-  .stage{
-    display:flex; flex-direction:column; align-items:center;
-    padding:28px 24px 16px; min-height:calc(100vh - 57px);
-  }
+  /* ── Stage ── */
+  .stage{ display:flex; flex-direction:column; align-items:center; padding:28px 24px 16px; }
 
-  /* Slide frame */
-  .slide-wrap{
-    width:100%; max-width:900px; position:relative;
-    user-select:none;
-  }
-  .slide-img{
-    width:100%; height:auto; display:block;
-    border-radius:12px; box-shadow:var(--shadow);
-    border:1px solid var(--hairline);
+  /* Slide container — fixed aspect ratio wrapper */
+  .slide-wrap{ width:100%; max-width:900px; position:relative; user-select:none; }
+  .slide-box{
+    position:relative; width:100%; border-radius:12px; overflow:hidden;
+    box-shadow:var(--shadow); border:1px solid var(--hairline);
     transition:opacity .22s ease;
+    background:var(--slide-bg);
   }
-  .slide-img.fading{ opacity:0; }
+  .slide-box.fading{ opacity:0; }
+  .slide-img{ width:100%; height:auto; display:block; }
 
-  /* Arrow buttons overlaid on slide */
+  /* Overlay patches */
+  .ovr-layer{ position:absolute; inset:0; pointer-events:none; }
+  .ovr-patch{
+    position:absolute; background:var(--slide-bg);
+    display:flex; align-items:center; justify-content:center;
+    text-align:center; line-height:1.4;
+    font-family:"Noto Sans TC","Inter",sans-serif;
+  }
+  .ovr-title{
+    font-size:clamp(15px,2.8vw,28px); font-weight:700; color:#e8eaf0;
+    padding:0 4%;
+  }
+  .ovr-box-green{
+    font-size:clamp(11px,1.5vw,16px); font-weight:500; color:#e8eaf0;
+    border:2px solid #4ade80; border-radius:6px; padding:4% 6%;
+  }
+  .ovr-box-red{
+    font-size:clamp(11px,1.5vw,16px); font-weight:500; color:#e8eaf0;
+    border:2px solid #f87171; border-radius:6px; padding:4% 6%;
+  }
+
+  /* HTML summary slide */
+  .slide-html{
+    width:100%; background:var(--slide-bg); border-radius:12px; overflow:hidden;
+    box-shadow:var(--shadow); border:1px solid var(--hairline);
+    padding:6% 7%; color:#e8eaf0; transition:opacity .22s ease;
+  }
+  .slide-html.fading{ opacity:0; }
+  .sum-eyebrow{
+    font-family:"JetBrains Mono",monospace; font-size:clamp(10px,1.2vw,13px);
+    letter-spacing:.12em; text-transform:uppercase; color:#9ab3c8; margin-bottom:3%;
+  }
+  .sum-title{
+    font-family:"Noto Sans TC","Inter",sans-serif;
+    font-size:clamp(18px,3.2vw,34px); font-weight:700; color:#e8eaf0;
+    margin-bottom:5%; line-height:1.2;
+  }
+  .sum-grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:2.5%; }
+  .sum-col h3{
+    font-size:clamp(11px,1.4vw,15px); color:#9ab3c8;
+    border-bottom:1px solid #2e3558; padding-bottom:4%; margin-bottom:4%;
+    font-family:"JetBrains Mono",monospace; letter-spacing:.06em;
+    text-transform:uppercase;
+  }
+  .sum-col ul{ list-style:none; padding:0; }
+  .sum-col li{
+    font-size:clamp(10px,1.2vw,13.5px); color:#c8d6e0;
+    padding:2.5% 0; border-bottom:1px solid #1e2240;
+    display:flex; align-items:flex-start; gap:5%;
+    line-height:1.45;
+  }
+  .sum-col li::before{ content:"›"; color:#6A8DAB; font-weight:700; flex:none; }
+  .sum-footer{
+    margin-top:5%; padding-top:3%; border-top:1px solid #2e3558;
+    font-family:"JetBrains Mono",monospace; font-size:clamp(9px,1.1vw,12px);
+    color:#5a7088; text-align:center;
+  }
+
+  /* Arrow buttons */
   .arrow{
     position:absolute; top:50%; transform:translateY(-50%);
     width:44px; height:44px; border-radius:50%;
-    background:rgba(255,255,255,0.82); border:1px solid var(--hairline);
+    background:rgba(255,255,255,0.85); border:1px solid var(--hairline);
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     display:flex; align-items:center; justify-content:center;
     cursor:pointer; color:var(--ink); box-shadow:0 2px 8px rgba(44,58,74,.12);
-    transition:all .15s ease; z-index:2;
+    transition:all .15s ease; z-index:5;
   }
   .arrow:hover{ background:#fff; border-color:var(--brand); color:var(--brand); }
   .arrow:disabled{ opacity:.3; cursor:default; }
-  .arrow:disabled:hover{ background:rgba(255,255,255,0.82); border-color:var(--hairline); color:var(--ink); }
+  .arrow:disabled:hover{ background:rgba(255,255,255,0.85); border-color:var(--hairline); color:var(--ink); }
   .arrow-prev{ left:-22px; }
   .arrow-next{ right:-22px; }
 
-  /* Progress bar */
-  .progress-bar{
-    width:100%; max-width:900px; height:3px;
-    background:var(--hairline); border-radius:2px; margin:14px 0;
-  }
-  .progress-fill{
-    height:100%; background:var(--brand); border-radius:2px;
-    transition:width .3s ease;
-  }
+  /* Progress */
+  .progress-bar{ width:100%; max-width:900px; height:3px; background:var(--hairline); border-radius:2px; margin:14px 0; }
+  .progress-fill{ height:100%; background:var(--brand); border-radius:2px; transition:width .3s ease; }
 
   /* Nav row */
-  .nav-row{
-    display:flex; align-items:center; gap:12px;
-    width:100%; max-width:900px; margin-bottom:24px;
-  }
+  .nav-row{ display:flex; align-items:center; gap:12px; width:100%; max-width:900px; margin-bottom:24px; }
   .btn{
     font-family:inherit; font-size:14px; font-weight:500; cursor:pointer;
     border:1px solid var(--hairline); background:var(--surface); color:var(--ink);
@@ -118,52 +151,39 @@
   .btn:hover{ border-color:var(--brand); color:var(--brand-ink); }
   .btn:disabled{ opacity:.35; cursor:default; }
   .btn-spacer{ flex:1; }
-  .btn-fs{
-    font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--muted);
-    padding:9px 14px;
-  }
+  .btn-fs{ font-family:"JetBrains Mono",monospace; font-size:12px; color:var(--muted); padding:9px 14px; }
 
-  /* Thumbnail strip */
+  /* Thumbnails */
   .thumb-section{ width:100%; max-width:900px; }
-  .thumb-label{
-    font-family:"JetBrains Mono",monospace; font-size:11.5px;
-    letter-spacing:.1em; text-transform:uppercase; color:var(--muted);
-    margin-bottom:12px;
-  }
-  .thumb-strip{
-    display:grid; grid-template-columns:repeat(auto-fill, minmax(120px,1fr));
-    gap:8px;
-  }
+  .thumb-label{ font-family:"JetBrains Mono",monospace; font-size:11.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+  .thumb-strip{ display:grid; grid-template-columns:repeat(auto-fill,minmax(110px,1fr)); gap:8px; }
   .thumb{
     position:relative; cursor:pointer;
     border:2px solid var(--hairline); border-radius:8px; overflow:hidden;
-    transition:all .15s ease; background:#fff;
+    transition:all .15s ease; background:var(--slide-bg);
   }
   .thumb:hover{ border-color:var(--brand); transform:translateY(-2px); box-shadow:var(--shadow); }
   .thumb.active{ border-color:var(--brand); box-shadow:0 0 0 2px var(--brand); }
   .thumb img{ width:100%; height:auto; display:block; }
-  .thumb-no{
-    position:absolute; bottom:0; left:0; right:0;
-    font-family:"JetBrains Mono",monospace; font-size:10px;
-    background:rgba(44,58,74,.55); color:#fff;
-    text-align:center; padding:2px 0;
+  .thumb-html-preview{
+    width:100%; aspect-ratio:1376/768; background:var(--slide-bg);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono",monospace; font-size:10px; color:#6A8DAB;
+    text-align:center; padding:8%;
   }
+  .thumb-no{ position:absolute; bottom:0; left:0; right:0; font-family:"JetBrains Mono",monospace; font-size:10px; background:rgba(24,25,44,.6); color:#fff; text-align:center; padding:2px 0; }
 
-  /* Keyboard hint */
-  .key-hint{
-    text-align:center; font-family:"JetBrains Mono",monospace;
-    font-size:11.5px; color:var(--muted); margin:16px 0 32px;
-  }
-  .key{ display:inline-block; border:1px solid var(--hairline);
-    padding:1px 7px; border-radius:4px; background:rgba(255,255,255,0.6); }
+  .key-hint{ text-align:center; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--muted); margin:16px 0 32px; }
+  .key{ display:inline-block; border:1px solid var(--hairline); padding:1px 7px; border-radius:4px; background:rgba(255,255,255,0.6); }
 
   @media(max-width:640px){
     .arrow-prev{ left:-12px; } .arrow-next{ right:-12px; }
     .arrow{ width:36px; height:36px; }
-    .thumb-strip{ grid-template-columns:repeat(auto-fill,minmax(88px,1fr)); }
+    .thumb-strip{ grid-template-columns:repeat(auto-fill,minmax(80px,1fr)); }
+    .sum-grid{ grid-template-columns:1fr; }
   }
   @media(prefers-reduced-motion:reduce){
-    .slide-img,.thumb,.progress-fill{ transition:none; }
+    .slide-box,.slide-html,.thumb,.progress-fill{ transition:none; }
   }
 </style>
 </head>
@@ -175,32 +195,28 @@
     返回首頁
   </a>
   <span class="topbar-title">股票交易戰術指南</span>
-  <span class="counter-badge" id="counter">1 / 15</span>
+  <span class="counter-badge" id="counter">1 / 16</span>
 </header>
 
 <main class="stage">
-
-  <!-- Slide -->
   <div class="slide-wrap">
     <button class="arrow arrow-prev" id="prev" aria-label="上一張" disabled>
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
     </button>
-    <img class="slide-img" id="slide-img" src="slides/image1.png" alt="投影片 1">
+    <div id="slide-area"></div>
     <button class="arrow arrow-next" id="next" aria-label="下一張">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
     </button>
   </div>
 
-  <!-- Progress -->
-  <div class="progress-bar"><div class="progress-fill" id="progress" style="width:6.67%"></div></div>
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
 
-  <!-- Nav row -->
   <div class="nav-row">
     <button class="btn" id="btn-prev" disabled>
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="m15 18-6-6 6-6"/></svg>上一張
     </button>
     <span class="btn-spacer"></span>
-    <button class="btn btn-fs" id="btn-fs" title="全螢幕">
+    <button class="btn btn-fs" id="btn-fs">
       <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/></svg>
       全螢幕
     </button>
@@ -210,7 +226,6 @@
     </button>
   </div>
 
-  <!-- Thumbnails -->
   <div class="thumb-section">
     <p class="thumb-label">所有投影片</p>
     <div class="thumb-strip" id="thumbs"></div>
@@ -222,44 +237,163 @@
     <span class="key">End</span> 最後一張 &nbsp;·&nbsp;
     <span class="key">F</span> 全螢幕
   </p>
-
 </main>
 
 <script>
 (function(){
-  const TOTAL = 15;
-  let cur = 0;
-  let transitioning = false;
+  // ── Slide definitions ──
+  // overlays: [{x,y,w,h} all as % strings, cls, text}]
+  // type 'img' = PNG slide; type 'html' = inline HTML slide
+  const SLIDES = [
+    { type:'img', src:'slides/image1.png',  alt:'股票交易戰術指南' },
+    { type:'img', src:'slides/image2.png',  alt:'獲利的三大基石與生存鐵律' },
+    { type:'img', src:'slides/image3.png',  alt:'宏觀地圖：道氏理論的時空觀' },
+    { type:'img', src:'slides/image4.png',  alt:'市場節奏與空間感：艾略特波浪理論' },
+    {
+      type:'img', src:'slides/image5.png',  alt:'實戰圖表型態：多頭慣性解析',
+      overlays:[
+        { x:'0%', y:'0%', w:'100%', h:'13%', cls:'ovr-title',
+          text:'實戰圖表型態：多頭慣性解析' }
+      ]
+    },
+    { type:'img', src:'slides/image6.png',  alt:'技術武器庫總覽：指標層級與戰略定位' },
+    { type:'img', src:'slides/image7.png',  alt:'均線系統防線：配合主力作手的推進節奏' },
+    { type:'img', src:'slides/image8.png',  alt:'季線核心戰法一：生命線突破的大賺策略' },
+    { type:'img', src:'slides/image9.png',  alt:'季線核心戰法二：強勢股的趨勢波段操作' },
+    { type:'img', src:'slides/image10.png', alt:'季線核心戰法三：反向利用主力的甩轎洗盤' },
+    { type:'img', src:'slides/image11.png', alt:'MACD 中期動能：零軸戰法與柱狀圖訊號' },
+    { type:'img', src:'slides/image12.png', alt:'KD 震盪指標：買賣輔助的專屬溫度計' },
+    {
+      type:'img', src:'slides/image13.png', alt:'基本面盲點破解：除權息行情背後的大戶邏輯',
+      overlays:[
+        { x:'2%',  y:'45%', w:'33%', h:'24%', cls:'ovr-box-green',
+          text:'戰術買點：\n除息前 2 個月，此時通常是低點，進場佈局。' },
+        { x:'36%', y:'45%', w:'33%', h:'24%', cls:'ovr-box-red',
+          text:'戰術賣點：\n除息前 1 天果斷賣出，通常不參加除權息。' }
+      ]
+    },
+    {
+      type:'img', src:'slides/image14.png', alt:'系統化決策流程：從圖表到執行的標準作業程序',
+      overlays:[
+        { x:'0%', y:'0%', w:'100%', h:'14%', cls:'ovr-title',
+          text:'系統化決策流程：從圖表到執行的標準作業程序' }
+      ]
+    },
+    { type:'img', src:'slides/image15.png', alt:'趨勢不容易形成，一旦形成便不容易改變' },
+    {
+      type:'html', alt:'總結',
+      html:`
+        <div class="slide-html" id="html-slide">
+          <div class="sum-eyebrow">股票交易戰術指南 · 總結</div>
+          <div class="sum-title">三大支柱 × 核心紀律</div>
+          <div class="sum-grid">
+            <div class="sum-col">
+              <h3>01 · 技術分析</h3>
+              <ul>
+                <li>道氏理論：僅在多頭方向操作，以次要趨勢找交易點</li>
+                <li>波浪理論：在第 2、4、C 波修正回檔 50% 處買黑K</li>
+                <li>慣性理論：高點過前高、低點不過前低，回檔 20% 布局</li>
+                <li>均線多頭排列：短線在上、長線在下，是進場先決條件</li>
+                <li>季線（60MA）= 多空生命線，跌破無條件賣出</li>
+                <li>MACD：綠柱轉紅柱買，紅柱轉綠柱賣，需搭配均線使用</li>
+                <li>KD：溫度計輔助工具，K&lt;20 超賣、K&gt;80 超買</li>
+              </ul>
+            </div>
+            <div class="sum-col">
+              <h3>02 · 季線三大戰法</h3>
+              <ul>
+                <li>戰法一 突破：K 線由下往上突破季線即買，跌破即賣</li>
+                <li>戰法二 回測：強勢股靠近季線時買進，跌破停損</li>
+                <li>戰法三 洗盤：長黑急跌破季線時逆向買進，設 -10% 嚴格停損</li>
+                <li>年線（240MA）用於挑選股票，只做年線向上的個股</li>
+                <li>Step 1 確立年線方向 → Step 2 均線多頭排列 + MACD 紅柱 → Step 3 找買點 → Step 4 設定 -10% 停損 +20% 停利</li>
+              </ul>
+            </div>
+            <div class="sum-col">
+              <h3>03 · 資金與心理</h3>
+              <ul>
+                <li>大數法則：務實停損 10%，在數學上徹底切斷大賠</li>
+                <li>停利 20% ＞ 停損 10%，長期累積「大賺小賠」</li>
+                <li>絕不猜測頭部與底部，只順趨勢操作</li>
+                <li>基本面篩選：EPS 正成長 + 能發現金股息 = 防黑字倒閉</li>
+                <li>除權息策略：除息前 2 個月布局，除息前 1 天賣出，賺免稅價差</li>
+                <li>大盤過高時分批減碼：跌破 5 日線 -25%、10 日線 -50%、月線清倉</li>
+                <li>趨勢不容易形成，一旦形成便不容易改變</li>
+              </ul>
+            </div>
+          </div>
+          <div class="sum-footer">知識淬鍊與戰術手冊 · 技術 × 資金 × 心理 = 獲利黃金三角</div>
+        </div>`
+    }
+  ];
 
-  const imgEl    = document.getElementById('slide-img');
+  const TOTAL = SLIDES.length;
+  let cur = 0, transitioning = false;
+  const areaEl   = document.getElementById('slide-area');
   const counter  = document.getElementById('counter');
   const progress = document.getElementById('progress');
-  const prevArrow = document.getElementById('prev');
-  const nextArrow = document.getElementById('next');
+  const prevArr  = document.getElementById('prev');
+  const nextArr  = document.getElementById('next');
   const btnPrev  = document.getElementById('btn-prev');
   const btnNext  = document.getElementById('btn-next');
   const thumbBox = document.getElementById('thumbs');
 
   // Build thumbnails
-  for (let i = 0; i < TOTAL; i++){
+  SLIDES.forEach((s, i) => {
     const d = document.createElement('div');
     d.className = 'thumb' + (i === 0 ? ' active' : '');
-    d.innerHTML = `<img src="slides/image${i+1}.png" alt="投影片 ${i+1}" loading="lazy">
-                   <span class="thumb-no">${i+1}</span>`;
+    if (s.type === 'img'){
+      d.innerHTML = `<img src="${s.src}" alt="${s.alt}" loading="lazy"><span class="thumb-no">${i+1}</span>`;
+    } else {
+      d.innerHTML = `<div class="thumb-html-preview">總結</div><span class="thumb-no">${i+1}</span>`;
+    }
     d.addEventListener('click', () => goTo(i));
     thumbBox.appendChild(d);
+  });
+
+  function renderSlide(idx){
+    const s = SLIDES[idx];
+    if (s.type === 'img'){
+      const box = document.createElement('div');
+      box.className = 'slide-box';
+      const img = document.createElement('img');
+      img.className = 'slide-img';
+      img.src = s.src;
+      img.alt = s.alt;
+      box.appendChild(img);
+      // overlays
+      if (s.overlays && s.overlays.length){
+        const layer = document.createElement('div');
+        layer.className = 'ovr-layer';
+        s.overlays.forEach(o => {
+          const p = document.createElement('div');
+          p.className = 'ovr-patch ' + o.cls;
+          p.style.left = o.x; p.style.top = o.y;
+          p.style.width = o.w; p.style.height = o.h;
+          p.style.whiteSpace = 'pre-line';
+          p.textContent = o.text;
+          layer.appendChild(p);
+        });
+        box.appendChild(layer);
+      }
+      return box;
+    } else {
+      const wrap = document.createElement('div');
+      wrap.innerHTML = s.html;
+      return wrap.firstElementChild;
+    }
   }
 
   function goTo(idx, instant){
-    if (idx === cur) return;
+    if (idx === cur && areaEl.children.length) return;
     if (transitioning && !instant) return;
     transitioning = true;
-    imgEl.classList.add('fading');
+    const current = areaEl.firstElementChild;
+    if (current) current.classList.add('fading');
     setTimeout(() => {
+      areaEl.innerHTML = '';
       cur = idx;
-      imgEl.src = `slides/image${cur+1}.png`;
-      imgEl.alt = `投影片 ${cur+1}`;
-      imgEl.classList.remove('fading');
+      areaEl.appendChild(renderSlide(cur));
       update();
       transitioning = false;
     }, instant ? 0 : 180);
@@ -268,52 +402,48 @@
   function update(){
     counter.textContent = `${cur+1} / ${TOTAL}`;
     progress.style.width = `${(cur+1)/TOTAL*100}%`;
-    prevArrow.disabled = btnPrev.disabled = cur === 0;
-    nextArrow.disabled = btnNext.disabled = cur === TOTAL-1;
+    prevArr.disabled = btnPrev.disabled = cur === 0;
+    nextArr.disabled = btnNext.disabled = cur === TOTAL-1;
     document.querySelectorAll('.thumb').forEach((t,i) => t.classList.toggle('active', i === cur));
-    // Scroll active thumb into view
     const active = thumbBox.children[cur];
     if (active) active.scrollIntoView({behavior:'smooth', block:'nearest', inline:'nearest'});
   }
 
-  prevArrow.addEventListener('click', () => { if (cur > 0) goTo(cur-1); });
-  nextArrow.addEventListener('click', () => { if (cur < TOTAL-1) goTo(cur+1); });
-  btnPrev.addEventListener('click',   () => { if (cur > 0) goTo(cur-1); });
-  btnNext.addEventListener('click',   () => { if (cur < TOTAL-1) goTo(cur+1); });
+  prevArr.addEventListener('click', () => { if(cur>0) goTo(cur-1); });
+  nextArr.addEventListener('click', () => { if(cur<TOTAL-1) goTo(cur+1); });
+  btnPrev.addEventListener('click', () => { if(cur>0) goTo(cur-1); });
+  btnNext.addEventListener('click', () => { if(cur<TOTAL-1) goTo(cur+1); });
 
-  // Keyboard
   document.addEventListener('keydown', e => {
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp')  { e.preventDefault(); if(cur>0) goTo(cur-1); }
-    if (e.key === 'ArrowRight'|| e.key === 'ArrowDown') { e.preventDefault(); if(cur<TOTAL-1) goTo(cur+1); }
-    if (e.key === 'Home') { e.preventDefault(); goTo(0, true); }
-    if (e.key === 'End')  { e.preventDefault(); goTo(TOTAL-1, true); }
-    if (e.key.toLowerCase() === 'f') toggleFs();
+    if(e.key==='ArrowLeft'||e.key==='ArrowUp')  { e.preventDefault(); if(cur>0) goTo(cur-1); }
+    if(e.key==='ArrowRight'||e.key==='ArrowDown'){ e.preventDefault(); if(cur<TOTAL-1) goTo(cur+1); }
+    if(e.key==='Home'){ e.preventDefault(); goTo(0, true); }
+    if(e.key==='End') { e.preventDefault(); goTo(TOTAL-1, true); }
+    if(e.key.toLowerCase()==='f') toggleFs();
   });
 
-  // Fullscreen
   document.getElementById('btn-fs').addEventListener('click', toggleFs);
   function toggleFs(){
     const el = document.querySelector('.slide-wrap');
-    if (!document.fullscreenElement){
-      (el.requestFullscreen || el.webkitRequestFullscreen).call(el);
+    if(!document.fullscreenElement){
+      (el.requestFullscreen||el.webkitRequestFullscreen).call(el);
     } else {
-      (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      (document.exitFullscreen||document.webkitExitFullscreen).call(document);
     }
   }
 
   // Touch swipe
   let touchX = null;
-  imgEl.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; });
-  imgEl.addEventListener('touchend', e => {
-    if (touchX === null) return;
+  document.getElementById('slide-area').addEventListener('touchstart', e=>{ touchX=e.touches[0].clientX; });
+  document.getElementById('slide-area').addEventListener('touchend', e=>{
+    if(touchX===null) return;
     const dx = e.changedTouches[0].clientX - touchX;
-    if (Math.abs(dx) > 40){
-      if (dx < 0 && cur < TOTAL-1) goTo(cur+1);
-      if (dx > 0 && cur > 0) goTo(cur-1);
-    }
-    touchX = null;
+    if(Math.abs(dx)>40){ if(dx<0&&cur<TOTAL-1) goTo(cur+1); if(dx>0&&cur>0) goTo(cur-1); }
+    touchX=null;
   });
 
+  // Init
+  areaEl.appendChild(renderSlide(0));
   update();
 })();
 </script>
