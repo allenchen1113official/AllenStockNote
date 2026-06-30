@@ -46,7 +46,7 @@
   .motif-cap b{ color:var(--brand-ink); }
 
   /* cards */
-  .grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; padding:14px 0 10px; }
+  .grid{ display:grid; grid-template-columns:1fr 1fr 1fr; gap:18px; padding:14px 0 10px; }
   .tile{ display:block; text-decoration:none; color:inherit; background:var(--surface);
     border:1px solid var(--hairline); border-radius:16px; padding:26px 24px;
     backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
@@ -78,7 +78,7 @@
     font-family:"JetBrains Mono",monospace; }
   footer a{ color:var(--brand-ink); }
 
-  @media (max-width:640px){
+  @media (max-width:760px){
     .grid{ grid-template-columns:1fr; }
     .topic-list{ grid-template-columns:1fr; }
     .hero{ padding:44px 0 28px; }
@@ -124,6 +124,15 @@
       <h2>康乃爾筆記</h2>
       <p>三頁精華彙整，左側提問自測、右側重點、底部總結，排版已優化可直接列印成 A4。</p>
       <span class="go">閱讀筆記
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </span>
+    </a>
+    <a class="tile" href="slideshow.html">
+      <span class="badge">15 張 · 可全螢幕</span>
+      <div class="tile-no">03</div>
+      <h2>戰術指南投影片</h2>
+      <p>股票交易戰術指南完整簡報，整合技術、資金與心理的黃金三角，支援鍵盤翻頁與觸控滑動。</p>
+      <span class="go">播放投影片
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
       </span>
     </a>
