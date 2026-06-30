@@ -221,19 +221,19 @@ const CARDS = [
 
 <style>
   :root{
-    --bg:        #E9E7E0;
-    --grid:      #DEDBD1;
-    --surface:   #FFFFFF;
-    --ink:       #181A1B;
-    --muted:     #6B6F73;
-    --hairline:  #D9D6CC;
-    --brand:     #186A56;
-    --brand-ink: #0E4D3E;
-    --brand-soft:#DCEDE7;
-    --review:    #B45309;
-    --review-soft:#F7E7D3;
+    --bg:        #E2E8F0;
+    --grid:      #D2DCE8;
+    --surface:   rgba(255,255,255,0.80);
+    --ink:       #2C3A4A;
+    --muted:     #7A8EA6;
+    --hairline:  #BEC9D6;
+    --brand:     #6A8DAB;
+    --brand-ink: #456882;
+    --brand-soft:#D3E3EE;
+    --review:    #8B7EAF;
+    --review-soft:#E4DDEF;
     --radius:    16px;
-    --shadow:    0 1px 2px rgba(24,26,27,.04), 0 12px 32px -12px rgba(24,26,27,.18);
+    --shadow:    0 1px 3px rgba(44,58,74,.05), 0 12px 32px -10px rgba(44,58,74,.14);
     --maxw:      980px;
   }
 
@@ -247,6 +247,7 @@ const CARDS = [
       linear-gradient(var(--grid) 1px, transparent 1px),
       linear-gradient(90deg, var(--grid) 1px, transparent 1px);
     background-size:28px 28px;
+    background-attachment:fixed;
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     min-height:100vh;
@@ -289,6 +290,7 @@ const CARDS = [
     width:100%; padding:13px 16px 13px 42px;
     border:1px solid var(--hairline); border-radius:12px;
     background:var(--surface); font-size:15px; font-family:inherit; color:var(--ink);
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
   }
   .search-box input:focus{ outline:2px solid var(--brand); outline-offset:1px; border-color:transparent; }
 
@@ -316,6 +318,7 @@ const CARDS = [
     position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
     background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius);
     box-shadow:var(--shadow); padding:26px 28px;
+    backdrop-filter:blur(10px); -webkit-backdrop-filter:blur(10px);
     display:flex; flex-direction:column;
   }
   .face-back{ transform:rotateY(180deg); }
@@ -377,6 +380,7 @@ const CARDS = [
   .mini{
     text-align:left; background:var(--surface); border:1px solid var(--hairline);
     border-radius:12px; padding:14px 15px; cursor:pointer; font-family:inherit;
+    backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
     transition:all .15s ease; position:relative; overflow:hidden;
   }
   .mini:hover{ border-color:var(--brand); transform:translateY(-2px); box-shadow:var(--shadow); }
