@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>技術分析複習 · 康乃爾筆記</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#E9E7E0; --grid:#DEDBD1; --surface:#FFFFFF;
+    --ink:#181A1B; --muted:#6B6F73; --hairline:#D9D6CC;
+    --brand:#186A56; --brand-ink:#0E4D3E; --brand-soft:#DCEDE7;
+    --review:#B45309; --review-soft:#F7E7D3;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:"Inter", system-ui, "Noto Sans TC", sans-serif;
+    color:var(--ink); line-height:1.6; -webkit-font-smoothing:antialiased;
+    background-color:var(--bg);
+    background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+    background-size:28px 28px;
+  }
+  .wrap{ max-width:880px; margin:0 auto; padding:48px 24px 64px; }
+
+  /* doc header */
+  .doc-head{ margin-bottom:36px; }
+  .eyebrow{ font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.14em;
+    text-transform:uppercase; color:var(--brand-ink); margin:0 0 10px; display:flex; align-items:center; gap:8px; }
+  .eyebrow::before{ content:""; width:18px; height:2px; background:var(--brand); }
+  h1{ font-family:"Fraunces",Georgia,serif; font-weight:500; font-size:clamp(28px,5vw,42px);
+    margin:0; letter-spacing:-.01em; line-height:1.08; }
+  .doc-sub{ color:var(--muted); margin:10px 0 0; font-size:14.5px; }
+  .legend{ display:flex; gap:18px; flex-wrap:wrap; margin-top:18px;
+    font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--muted); }
+  .legend span{ display:flex; align-items:center; gap:7px; }
+  .legend i{ width:11px; height:11px; border-radius:3px; display:inline-block; font-style:normal; }
+  .lg-cue{ background:var(--brand-soft); border:1px solid var(--brand); }
+  .lg-note{ background:var(--surface); border:1px solid var(--hairline); }
+  .lg-sum{ background:var(--review-soft); border:1px solid var(--review); }
+
+  /* sheet */
+  .sheet{ background:var(--surface); border:1px solid var(--hairline); border-radius:14px;
+    overflow:hidden; box-shadow:0 1px 2px rgba(24,26,27,.04),0 16px 36px -18px rgba(24,26,27,.22);
+    margin-bottom:30px; }
+  .sheet-head{ display:flex; align-items:center; gap:14px; padding:18px 24px;
+    background:var(--ink); color:#fff; }
+  .sheet-no{ font-family:"Fraunces",serif; font-size:26px; line-height:1; color:var(--brand-soft); font-weight:500; }
+  .sheet-title{ font-family:"Fraunces",serif; font-weight:500; font-size:19px; }
+
+  .row{ display:grid; grid-template-columns:30% 70%; border-top:1px solid var(--hairline); }
+  .row:first-of-type{ border-top:none; }
+  .cue{ padding:18px 18px 18px 24px; background:#FBFAF6; border-right:1px solid var(--hairline); }
+  .cue-q{ font-weight:600; font-size:15px; color:var(--brand-ink); display:flex; gap:8px; }
+  .cue-q::before{ content:"›"; color:var(--brand); font-weight:700; }
+  .cue-key{ font-family:"JetBrains Mono",monospace; font-size:11px; color:var(--muted);
+    margin-top:8px; display:block; }
+  .note{ padding:18px 24px; }
+  .note ul{ margin:0; padding:0; list-style:none; }
+  .note li{ position:relative; padding-left:18px; margin-bottom:7px; font-size:14.5px; }
+  .note li:last-child{ margin-bottom:0; }
+  .note li::before{ content:""; position:absolute; left:2px; top:10px; width:5px; height:5px;
+    border-radius:50%; background:var(--brand); }
+  .note b{ color:var(--brand-ink); font-weight:600; }
+  .note .warn{ color:var(--review); font-weight:600; }
+  .note .sub{ padding-left:18px; }
+  .note .sub li::before{ background:none; border:1px solid var(--muted); top:8px; }
+
+  .summary{ display:grid; grid-template-columns:30% 70%; border-top:2px solid var(--ink);
+    background:var(--review-soft); }
+  .sum-label{ padding:16px 18px 16px 24px; border-right:1px solid var(--hairline);
+    font-family:"JetBrains Mono",monospace; font-size:12px; letter-spacing:.08em;
+    text-transform:uppercase; color:var(--review); font-weight:500; }
+  .sum-body{ padding:16px 24px; font-size:14.5px; }
+  .sum-body b{ color:var(--ink); font-weight:600; }
+
+  footer{ text-align:center; color:var(--muted); font-size:12px; margin-top:8px;
+    font-family:"JetBrains Mono",monospace; }
+
+  @media (max-width:640px){
+    .row,.summary{ grid-template-columns:1fr; }
+    .cue{ border-right:none; border-bottom:1px solid var(--hairline); }
+    .sum-label{ border-right:none; border-bottom:1px solid var(--hairline); }
+  }
+
+  /* print: clean A4 */
+  @media print{
+    body{ background:#fff; }
+    .wrap{ max-width:none; padding:0; }
+    .sheet{ box-shadow:none; break-inside:avoid; page-break-inside:avoid; margin-bottom:18px; }
+    .legend,.doc-sub{ }
+    @page{ size:A4; margin:14mm; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="doc-head">
+    <p class="eyebrow">康乃爾筆記法 · 精華彙整</p>
+    <h1>技術分析複習筆記</h1>
+    <p class="doc-sub">三大核心理論與指標 · 均線季線實戰策略 · 基本面與資金控管</p>
+    <div class="legend">
+      <span><i class="lg-cue"></i>線索／提問欄</span>
+      <span><i class="lg-note"></i>重點筆記欄</span>
+      <span><i class="lg-sum"></i>總結欄</span>
+    </div>
+  </header>
+
+  <!-- ============ SHEET 1 ============ -->
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">1</span><span class="sheet-title">技術分析三大核心理論與輔助指標</span></div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">道氏理論在判斷什麼？</div><span class="cue-key">道氏理論 · 趨勢</span></div>
+      <div class="note"><ul>
+        <li>用來<b>判斷趨勢</b>，<span class="warn">僅適合多頭行情</span>。</li>
+        <li><b>主要趨勢</b>：看 1 年，確立大方向，一旦形成不易改變。</li>
+        <li><b>次要趨勢</b>：看 1～3 個月，與主趨勢反向 → 是「找交易點」的時機。</li>
+        <li><b>日常活動</b>：毫無趨勢，不建議買賣。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">波浪理論怎麼找買點？</div><span class="cue-key">艾略特波浪 · 買點</span></div>
+      <div class="note"><ul>
+        <li>漲勢 <b>5 波</b>（第 1、3、5 波最強）；跌勢 <b>3 波</b>（A、B、C）。</li>
+        <li><b>最佳買點＝修正波（第 2、4 波）</b>：回檔到前一波「一半」時進場。</li>
+        <li>買<b>黑K</b>，<span class="warn">切勿買紅K</span>。</li>
+        <li>紀律：停損 <b>10%</b>；停利需 ＞ 停損（設 <b>20%</b>）。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">慣性理論的特徵與策略？</div><span class="cue-key">慣性理論</span></div>
+      <div class="note"><ul>
+        <li>上漲慣性：<b>高點過前高、低點不過前低</b>。</li>
+        <li>策略：回檔約 <b>20%</b> 即可買進。</li>
+        <li>停損：<span class="warn">跌破前一波低點即賣出</span>。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">MACD 與 KD 怎麼用？</div><span class="cue-key">MACD · KD · 輔助指標</span></div>
+      <div class="note"><ul>
+        <li><b>MACD（中期趨勢）</b>：以 0 軸為中心 → 綠柱轉紅柱「買」、紅柱轉綠柱「賣」。</li>
+        <li><b>KD（震盪 / 溫度計）</b>：適用盤整盤，<span class="warn">不可單用</span>，需配季線等主策略。</li>
+        <li>K ＜ 20＝超賣（可低接）；K ＞ 80＝超買（過熱應賣）。</li>
+      </ul></div>
+    </div>
+
+    <div class="summary">
+      <div class="sum-label">總結</div>
+      <div class="sum-body">用<b>道氏</b>定方向（僅多頭）、<b>波浪</b>找空間與買點、<b>慣性</b>順勢判斷，三者皆指向同一核心 —— <b>在多頭趨勢的修正／回檔處進場</b>。MACD 抓中期轉折、KD 於盤整輔助。所有進場都<b>嚴設停損</b>。</div>
+    </div>
+  </section>
+
+  <!-- ============ SHEET 2 ============ -->
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">2</span><span class="sheet-title">均線操作與「季線大賺」三大策略</span></div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">均線怎麼分工？賺錢法則？</div><span class="cue-key">年線 · 季線 · 紀律</span></div>
+      <div class="note"><ul>
+        <li>指標數字越大越穩定。</li>
+        <li><b>年線（240日）</b>：看主要趨勢、用來<b>挑股</b>。</li>
+        <li><b>季線（60日）</b>：實際買賣的<b>多空分界線＝生命線</b>。</li>
+        <li>法則：大賺小賠 → <span class="warn">務實停損，避免大賠（虧 ＞ 50%）</span>。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">策略 1：基本突破？</div><span class="cue-key">季線 · 突破</span></div>
+      <div class="note"><ul>
+        <li>K線由下往上<b>突破季線 → 買</b>。</li>
+        <li>K線由上往下<b>跌破季線 → 賣</b>。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">策略 2：強勢股回測？</div><span class="cue-key">季線 · 回測</span></div>
+      <div class="note"><ul>
+        <li>對象：長期站在季線之上的<b>多頭強勢股</b>。</li>
+        <li>趁 K 線<b>靠近季線時買進</b>。</li>
+        <li><span class="warn">一旦跌破季線＝破壞趨勢，立即停損賣出</span>。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">策略 3：主力甩轎洗盤？</div><span class="cue-key">季線 · 洗盤 · 進階</span></div>
+      <div class="note"><ul>
+        <li>對象：主力故意打破季線、嚇跑散戶的洗盤手法。</li>
+        <li>趁<b>長黑跌破季線時大膽買進</b>，以買進價 <b>10%</b> 設嚴格停損。</li>
+        <li>反彈突破季線 → 抱住獲利；<span class="warn">再次跌破才賣</span>。</li>
+      </ul></div>
+    </div>
+
+    <div class="summary">
+      <div class="sum-label">總結</div>
+      <div class="sum-body">以<b>年線挑強勢股、季線作買賣分界</b>。三招都圍繞季線：突破買／跌破賣（基本）、回測靠近買（強勢股）、洗盤長黑反向買（進階）。共同紀律是<b>嚴守停損</b>（10% 或跌破季線），用「小賠」換「大賺」。</div>
+    </div>
+  </section>
+
+  <!-- ============ SHEET 3 ============ -->
+  <section class="sheet">
+    <div class="sheet-head"><span class="sheet-no">3</span><span class="sheet-title">基本面避險與大盤資金控管</span></div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">基本面怎麼防護？</div><span class="cue-key">現金股息 · 黑字倒閉</span></div>
+      <div class="note"><ul>
+        <li>觀察<b>營收年增率</b>與 <b>EPS</b> 是否為正。</li>
+        <li>關鍵：公司須能發<b>現金股息</b> → 證明有實質獲利。</li>
+        <li>目的：防範財報好看卻無現金的<span class="warn">「黑字倒閉」</span>風險。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">除權息怎麼避稅賺價差？</div><span class="cue-key">除權息 · 節稅</span></div>
+      <div class="note"><ul>
+        <li>股利併入綜所稅（最高 <b>40%</b>），但證所稅<b>免稅</b> → 大戶<span class="warn">絕不參加除權息</span>。</li>
+        <li>散戶策略：<b>除息前 2 個月（通常低點）買進</b>。</li>
+        <li><b>除息前 1 天賣出</b> → 賺主力拉抬的免稅價差。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">大盤風險如何預估？</div><span class="cue-key">大數法則 · 居安思危</span></div>
+      <div class="note"><ul>
+        <li>高檔時要居安思危。</li>
+        <li>以 24,000 點推演：跌 6 成 ≈ <b>9,600 點</b>、跌 8 成 ≈ <b>5,000 點</b>。</li>
+      </ul></div>
+    </div>
+
+    <div class="row">
+      <div class="cue"><div class="cue-q">何時分批減碼？</div><span class="cue-key">資金控管 · 減碼</span></div>
+      <div class="note"><ul>
+        <li>大盤過高或反轉時，緊盯短期均線分批減碼：</li>
+        <li class="sub"><ul>
+          <li>跌破 <b>5 日線</b> → 減碼 <b>1/4</b> 資金</li>
+          <li>跌破 <b>10 日線</b> → 減碼 <b>1/2</b> 資金</li>
+          <li>跌破 <b>20 日線（月線）</b> → <span class="warn">清倉收回資金</span></li>
+        </ul></li>
+      </ul></div>
+    </div>
+
+    <div class="summary">
+      <div class="sum-label">總結</div>
+      <div class="sum-body">基本面以<b>「能發現金股息」</b>為真獲利防線，避開黑字倒閉；善用台灣<b>除權息免稅價差</b>（前 2 月買、除息前 1 天賣）。大盤高檔以<b>大數法則</b>預估下行，並依 <b>5／10／20 日線分批減碼</b>控管資金。</div>
+    </div>
+  </section>
+
+  <footer>康乃爾筆記法 · 線索欄主動回想，筆記欄查證，總結欄串連全頁</footer>
+</div>
+</body>
+</html>

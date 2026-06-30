@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>複習卡片</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<!-- ============================================================= -->
+<!--  ▼▼▼  只需要編輯這個區塊：填入你的課程名稱與卡片  ▼▼▼          -->
+<!--                                                               -->
+<!--  每張卡片的格式：                                              -->
+<!--  {                                                            -->
+<!--    category: "分類名稱",      // 用來分組與篩選                  -->
+<!--    front:    "正面（問題 / 詞彙）",                            -->
+<!--    back:     "背面（答案 / 解釋）",                            -->
+<!--    tags:     ["標籤1", "標籤2"]  // 可省略，留空陣列 []         -->
+<!--  }                                                            -->
+<!--                                                               -->
+<!--  下面的卡片是「範例」，請直接替換成你的內容。                    -->
+<!-- ============================================================= -->
+<script>
+const COURSE = {
+  title: "技術分析複習",
+  subtitle: "三大核心理論與指標 · 均線季線實戰策略 · 基本面與資金控管"
+};
+
+const CARDS = [
+  // ── 第一頁：技術分析三大核心理論與輔助指標 ──
+  {
+    category: "核心理論與指標",
+    front: "道氏理論用來做什麼？適合什麼行情？",
+    back: "用來「判斷趨勢」，僅適合多頭行情。\n將股價變動分為三種：主要趨勢、次要趨勢、日常活動。",
+    tags: ["道氏理論", "趨勢"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "道氏理論的三種趨勢各看多久、各有什麼用途？",
+    back: "・主要趨勢：看 1 年，確立大方向，一旦形成不易改變。\n・次要趨勢：看 1～3 個月，與主要趨勢反向，是用來「找交易點」的時機。\n・日常活動：毫無趨勢，不建議買賣。",
+    tags: ["道氏理論"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "艾略特波浪理論：漲勢與跌勢各分幾波？",
+    back: "漲勢分為 5 波（第 1、3、5 波最強）。\n跌勢分為 3 波（A、B、C）。",
+    tags: ["波浪理論"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "波浪理論的「最佳買點」在哪裡？",
+    back: "買在主要趨勢中的「修正波」（第 2 波與第 4 波）。\n當回檔到前一波的「一半」時，找機會買黑K線（切勿買紅K）。",
+    tags: ["波浪理論", "買點"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "波浪理論操作的停損／停利紀律？",
+    back: "買進須設 10% 停損；停利需大於停損（設 20%）。",
+    tags: ["波浪理論", "紀律"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "慣性理論的特徵與操作策略？",
+    back: "上漲趨勢具備「高點過前高、低點不過前低」的慣性。\n策略：回檔約 20% 即可買進；停損設在「跌破前一波低點」即賣出。",
+    tags: ["慣性理論"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "MACD 是什麼指標？買賣訊號怎麼看？",
+    back: "中期趨勢指標，以 0 軸為中心。\n第一根綠柱轉紅柱時買進；第一根紅柱轉綠柱時賣出。",
+    tags: ["MACD"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "KD 指標的性質與使用限制？",
+    back: "震盪指標（溫度計），適用於盤整盤。\n不能當作唯一買賣策略，需搭配季線等主策略。",
+    tags: ["KD"]
+  },
+  {
+    category: "核心理論與指標",
+    front: "KD 指標的超買、超賣區怎麼判讀？",
+    back: "數值 0–100。\nK < 20 為超賣區（可低接）；K > 80 為超買區（過熱應賣出）。",
+    tags: ["KD"]
+  },
+
+  // ── 第二頁：均線操作與「季線大賺」三大策略 ──
+  {
+    category: "均線與季線策略",
+    front: "均線分工：年線與季線各看什麼？",
+    back: "指標數字越大越穩定。\n・年線（240 日）：看主要趨勢、用來挑選股票。\n・季線（60 日）：實際買賣的多空分界線與「生命線」。",
+    tags: ["均線"]
+  },
+  {
+    category: "均線與季線策略",
+    front: "長期賺錢的關鍵紀律是什麼？",
+    back: "務實執行停損，避免「大賠（虧損 50% 以上）」，才能達成「大賺小賠」的目標。",
+    tags: ["均線", "紀律"]
+  },
+  {
+    category: "均線與季線策略",
+    front: "季線策略 1：基本突破怎麼操作？",
+    back: "K線由下往上突破季線時買進；\nK線由上往下跌破季線時賣出。",
+    tags: ["季線", "策略1"]
+  },
+  {
+    category: "均線與季線策略",
+    front: "季線策略 2：強勢股回測怎麼操作？",
+    back: "針對長期維持在季線之上的多頭強勢股。\n趁 K 線「靠近季線」時買進；一旦跌破季線視為破壞趨勢，立即停損賣掉。",
+    tags: ["季線", "策略2"]
+  },
+  {
+    category: "均線與季線策略",
+    front: "季線策略 3：主力甩轎洗盤怎麼操作？",
+    back: "針對主力故意打破季線嚇跑散戶的洗盤手法。\n趁長黑跌破季線時大膽買進，以買進價的 10% 設立嚴格停損。\n反彈突破季線就抱住獲利，再次跌破才賣出。",
+    tags: ["季線", "策略3"]
+  },
+
+  // ── 第三頁：基本面避險與大盤資金控管 ──
+  {
+    category: "基本面與資金控管",
+    front: "基本面防護要觀察哪些指標？為何特別強調現金股息？",
+    back: "觀察營收年增率與 EPS 是否為正。\n強調公司須能發放「現金股息」，證明有實質獲利，以防財報好看卻無現金的「黑字倒閉」風險。",
+    tags: ["基本面", "現金股息"]
+  },
+  {
+    category: "基本面與資金控管",
+    front: "台灣特有的除權息避稅策略是什麼？",
+    back: "股利併入綜合所得稅（最高課 40%），但證券交易所得免稅，故大戶絕不參加除權息。\n散戶最佳策略：除息前 2 個月（通常為低點）買進，除息前 1 天賣出，賺主力拉抬的免稅價差。",
+    tags: ["除權息", "節稅"]
+  },
+  {
+    category: "基本面與資金控管",
+    front: "大盤風險如何用「大數法則」預估？",
+    back: "高檔時要居安思危。\n以 24,000 點推演下行風險：跌 6 成約 9,600 點，跌 8 成約 5,000 點。",
+    tags: ["大盤", "大數法則"]
+  },
+  {
+    category: "基本面與資金控管",
+    front: "短線停利與資金減碼的紀律？",
+    back: "大盤過高或出現反轉時，緊盯短期均線分批減碼：\n・跌破 5 日線：減碼 1/4 資金\n・跌破 10 日線：減碼 1/2 資金\n・跌破 20 日線（月線）：清倉收回資金",
+    tags: ["資金控管", "減碼"]
+  }
+];
+</script>
+<!-- ============================================================= -->
+<!--  ▲▲▲  編輯區結束，以下不需要更動也能正常運作  ▲▲▲             -->
+<!-- ============================================================= -->
+
+<style>
+  :root{
+    --bg:        #E9E7E0;
+    --grid:      #DEDBD1;
+    --surface:   #FFFFFF;
+    --ink:       #181A1B;
+    --muted:     #6B6F73;
+    --hairline:  #D9D6CC;
+    --brand:     #186A56;
+    --brand-ink: #0E4D3E;
+    --brand-soft:#DCEDE7;
+    --review:    #B45309;
+    --review-soft:#F7E7D3;
+    --radius:    16px;
+    --shadow:    0 1px 2px rgba(24,26,27,.04), 0 12px 32px -12px rgba(24,26,27,.18);
+    --maxw:      980px;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    font-family:"Inter", system-ui, -apple-system, "Noto Sans TC", sans-serif;
+    color:var(--ink);
+    background-color:var(--bg);
+    background-image:
+      linear-gradient(var(--grid) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size:28px 28px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    min-height:100vh;
+  }
+  .wrap{ max-width:var(--maxw); margin:0 auto; padding:0 20px; }
+
+  /* ---------- Header ---------- */
+  .top{ padding:40px 0 22px; }
+  .eyebrow{
+    font-family:"JetBrains Mono", monospace;
+    font-size:12px; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--brand-ink); margin:0 0 10px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .eyebrow::before{ content:""; width:18px; height:2px; background:var(--brand); display:inline-block; }
+  .head-row{ display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; }
+  h1{
+    font-family:"Fraunces", Georgia, serif;
+    font-weight:500; font-size:clamp(30px, 5vw, 46px);
+    line-height:1.05; margin:0; letter-spacing:-.01em;
+  }
+  .subtitle{ color:var(--muted); margin:8px 0 0; font-size:15px; max-width:46ch; }
+
+  /* progress ring */
+  .progress{ display:flex; align-items:center; gap:14px; }
+  .ring-wrap{ position:relative; width:64px; height:64px; flex:none; }
+  .ring-wrap svg{ transform:rotate(-90deg); }
+  .ring-bg{ fill:none; stroke:var(--hairline); stroke-width:7; }
+  .ring-fg{ fill:none; stroke:var(--brand); stroke-width:7; stroke-linecap:round; transition:stroke-dashoffset .5s ease; }
+  .ring-num{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+    font-family:"JetBrains Mono", monospace; font-size:14px; font-weight:500; }
+  .progress-label{ font-size:13px; color:var(--muted); line-height:1.4; }
+  .progress-label b{ color:var(--ink); font-weight:600; }
+
+  /* ---------- Controls ---------- */
+  .controls{ margin:6px 0 26px; display:flex; flex-direction:column; gap:14px; }
+  .search-box{ position:relative; }
+  .search-box svg{ position:absolute; left:14px; top:50%; transform:translateY(-50%); color:var(--muted); }
+  .search-box input{
+    width:100%; padding:13px 16px 13px 42px;
+    border:1px solid var(--hairline); border-radius:12px;
+    background:var(--surface); font-size:15px; font-family:inherit; color:var(--ink);
+  }
+  .search-box input:focus{ outline:2px solid var(--brand); outline-offset:1px; border-color:transparent; }
+
+  .chips{ display:flex; gap:8px; flex-wrap:wrap; align-items:center; }
+  .chip{
+    font-family:"JetBrains Mono", monospace; font-size:12.5px;
+    padding:7px 13px; border-radius:999px; cursor:pointer;
+    border:1px solid var(--hairline); background:var(--surface); color:var(--muted);
+    transition:all .15s ease; white-space:nowrap;
+  }
+  .chip:hover{ border-color:var(--brand); color:var(--brand-ink); }
+  .chip[aria-pressed="true"]{ background:var(--ink); border-color:var(--ink); color:#fff; }
+  .chip-review[aria-pressed="true"]{ background:var(--review); border-color:var(--review); }
+  .chip-spacer{ flex:1; }
+
+  /* ---------- Study card ---------- */
+  .stage{ display:flex; flex-direction:column; align-items:center; gap:18px; padding:6px 0 8px; }
+  .card-scene{ width:100%; max-width:560px; perspective:1600px; }
+  .card{
+    position:relative; width:100%; min-height:300px; cursor:pointer;
+    transform-style:preserve-3d; transition:transform .55s cubic-bezier(.2,.7,.2,1);
+  }
+  .card.is-flipped{ transform:rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    background:var(--surface); border:1px solid var(--hairline); border-radius:var(--radius);
+    box-shadow:var(--shadow); padding:26px 28px;
+    display:flex; flex-direction:column;
+  }
+  .face-back{ transform:rotateY(180deg); }
+  .card-meta{ display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap; }
+  .card-cat{
+    font-family:"JetBrains Mono", monospace; font-size:11.5px; letter-spacing:.04em;
+    color:var(--brand-ink); background:var(--brand-soft); padding:4px 9px; border-radius:6px;
+  }
+  .card-no{ font-family:"JetBrains Mono", monospace; font-size:11.5px; color:var(--muted); margin-left:auto; }
+  .side-label{ font-family:"JetBrains Mono", monospace; font-size:11px; letter-spacing:.1em;
+    text-transform:uppercase; color:var(--muted); }
+  .card-text{
+    flex:1; display:flex; align-items:center;
+    font-size:clamp(19px, 2.6vw, 23px); line-height:1.5; white-space:pre-wrap;
+  }
+  .face-front .card-text{ font-weight:500; }
+  .card-tags{ display:flex; gap:6px; flex-wrap:wrap; margin-top:14px; }
+  .tag{ font-family:"JetBrains Mono", monospace; font-size:11px; color:var(--muted);
+    border:1px solid var(--hairline); padding:2px 8px; border-radius:5px; }
+  .flip-hint{ font-family:"JetBrains Mono", monospace; font-size:11px; color:var(--muted);
+    margin-top:14px; display:flex; align-items:center; gap:6px; }
+  .status-flag{ position:absolute; top:0; left:28px; transform:translateY(-50%);
+    font-family:"JetBrains Mono", monospace; font-size:11px; letter-spacing:.06em;
+    padding:3px 10px; border-radius:6px; display:none; }
+  .card.s-known .status-flag.flag-known{ display:block; background:var(--brand); color:#fff; }
+  .card.s-review .status-flag.flag-review{ display:block; background:var(--review); color:#fff; }
+
+  /* nav + actions */
+  .nav-row{ display:flex; align-items:center; gap:10px; width:100%; max-width:560px; }
+  .counter{ font-family:"JetBrains Mono", monospace; font-size:13px; color:var(--muted);
+    flex:1; text-align:center; }
+  .btn{
+    font-family:inherit; font-size:14px; font-weight:500; cursor:pointer;
+    border:1px solid var(--hairline); background:var(--surface); color:var(--ink);
+    padding:10px 14px; border-radius:10px; transition:all .15s ease;
+    display:inline-flex; align-items:center; gap:7px;
+  }
+  .btn:hover{ border-color:var(--ink); }
+  .btn:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+  .btn-icon{ padding:10px 12px; }
+  .actions{ display:flex; gap:10px; }
+  .btn-known[aria-pressed="true"]{ background:var(--brand); border-color:var(--brand); color:#fff; }
+  .btn-review[aria-pressed="true"]{ background:var(--review); border-color:var(--review); color:#fff; }
+  .dot{ width:8px; height:8px; border-radius:50%; flex:none; }
+  .dot-known{ background:var(--brand); }
+  .dot-review{ background:var(--review); }
+
+  .toolbar{ display:flex; gap:10px; justify-content:center; margin-top:4px; flex-wrap:wrap; }
+  .btn-ghost{ background:transparent; border-color:transparent; color:var(--muted); font-size:13px; padding:6px 10px; }
+  .btn-ghost:hover{ color:var(--ink); border-color:var(--hairline); }
+
+  /* ---------- Browse grid ---------- */
+  .browse{ margin:46px 0 60px; }
+  .browse-head{ display:flex; align-items:baseline; gap:12px; margin-bottom:16px;
+    border-top:1px solid var(--hairline); padding-top:26px; }
+  .browse-head h2{ font-family:"Fraunces", serif; font-weight:500; font-size:22px; margin:0; }
+  .browse-count{ font-family:"JetBrains Mono", monospace; font-size:13px; color:var(--muted); }
+  .grid{ display:grid; grid-template-columns:repeat(auto-fill, minmax(220px, 1fr)); gap:12px; }
+  .mini{
+    text-align:left; background:var(--surface); border:1px solid var(--hairline);
+    border-radius:12px; padding:14px 15px; cursor:pointer; font-family:inherit;
+    transition:all .15s ease; position:relative; overflow:hidden;
+  }
+  .mini:hover{ border-color:var(--brand); transform:translateY(-2px); box-shadow:var(--shadow); }
+  .mini:focus-visible{ outline:2px solid var(--brand); outline-offset:2px; }
+  .mini::before{ content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:transparent; }
+  .mini.s-known::before{ background:var(--brand); }
+  .mini.s-review::before{ background:var(--review); }
+  .mini-cat{ font-family:"JetBrains Mono", monospace; font-size:10.5px; color:var(--muted);
+    text-transform:uppercase; letter-spacing:.05em; display:flex; align-items:center; gap:6px; }
+  .mini-front{ font-size:14.5px; font-weight:500; margin-top:7px; line-height:1.45;
+    display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden; }
+
+  .empty{ text-align:center; color:var(--muted); padding:50px 0; font-size:15px; }
+  .empty b{ color:var(--ink); }
+
+  footer{ text-align:center; color:var(--muted); font-size:12.5px; padding:0 0 40px;
+    font-family:"JetBrains Mono", monospace; }
+
+  @media (max-width:560px){
+    .top{ padding:28px 0 18px; }
+    .head-row{ align-items:flex-start; }
+    .face{ padding:22px 20px; }
+    .card{ min-height:280px; }
+    .actions .btn span{ display:none; }
+    .actions .btn{ padding:10px 14px; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    .card{ transition:none; }
+    .mini:hover{ transform:none; }
+    .ring-fg{ transition:none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="top">
+    <p class="eyebrow" id="eyebrow">複習卡片</p>
+    <div class="head-row">
+      <div>
+        <h1 id="course-title">複習卡片</h1>
+        <p class="subtitle" id="course-subtitle"></p>
+      </div>
+      <div class="progress">
+        <div class="ring-wrap">
+          <svg width="64" height="64" viewBox="0 0 64 64">
+            <circle class="ring-bg" cx="32" cy="32" r="27"></circle>
+            <circle class="ring-fg" id="ring-fg" cx="32" cy="32" r="27"></circle>
+          </svg>
+          <div class="ring-num" id="ring-num">0%</div>
+        </div>
+        <div class="progress-label">
+          <b id="known-count">0</b> / <span id="total-count">0</span> 已熟悉<br>
+          <span id="review-count">0</span> 張待複習
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="controls">
+    <div class="search-box">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"></circle><path d="m21 21-4.3-4.3"></path></svg>
+      <input id="search" type="search" placeholder="搜尋卡片內容、標籤…" autocomplete="off">
+    </div>
+    <div class="chips" id="category-chips"></div>
+  </section>
+
+  <section class="stage" id="stage">
+    <div class="card-scene">
+      <div class="card" id="card" role="button" tabindex="0" aria-label="卡片，點擊翻面">
+        <span class="status-flag flag-known">已熟悉</span>
+        <span class="status-flag flag-review">待複習</span>
+        <div class="face face-front">
+          <div class="card-meta">
+            <span class="card-cat" id="f-cat"></span>
+            <span class="card-no" id="f-no"></span>
+          </div>
+          <div class="card-text" id="f-front"></div>
+          <div class="card-tags" id="f-tags"></div>
+          <div class="flip-hint">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 0 1 9-9 9 9 0 0 1 6.7 3"></path><path d="M21 3v5h-5"></path></svg>
+            點一下或按空白鍵翻面
+          </div>
+        </div>
+        <div class="face face-back">
+          <div class="card-meta">
+            <span class="side-label">答案 / 解釋</span>
+            <span class="card-no" id="b-no"></span>
+          </div>
+          <div class="card-text" id="b-back"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="nav-row">
+      <button class="btn btn-icon" id="prev" aria-label="上一張">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"></path></svg>
+      </button>
+      <div class="actions">
+        <button class="btn btn-review" id="mark-review" aria-pressed="false">
+          <span class="dot dot-review"></span><span>待複習</span>
+        </button>
+        <button class="btn btn-known" id="mark-known" aria-pressed="false">
+          <span class="dot dot-known"></span><span>已熟悉</span>
+        </button>
+      </div>
+      <button class="btn btn-icon" id="next" aria-label="下一張">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"></path></svg>
+      </button>
+    </div>
+    <div class="counter" id="counter">0 / 0</div>
+
+    <div class="toolbar">
+      <button class="btn-ghost btn" id="shuffle">🔀 隨機排列</button>
+      <button class="btn-ghost btn" id="reset">↺ 清除我的進度</button>
+    </div>
+  </section>
+
+  <section class="browse">
+    <div class="browse-head">
+      <h2>全部卡片</h2>
+      <span class="browse-count" id="browse-count"></span>
+    </div>
+    <div class="grid" id="grid"></div>
+  </section>
+
+  <footer>靜態複習網站 · 進度儲存於本機瀏覽器</footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  // ---- normalise data ----
+  const deck = CARDS.map((c, i) => ({
+    id: "c" + i + "_" + slug(c.front),
+    category: c.category || "未分類",
+    front: c.front || "",
+    back: c.back || "",
+    tags: Array.isArray(c.tags) ? c.tags : []
+  }));
+  function slug(s){ return String(s).replace(/\s+/g,"").slice(0,12); }
+
+  const STORE_KEY = "reviewcards::" + (COURSE.title || "default");
+  let status = loadStatus();          // { id: "known" | "review" }
+  let view = deck.slice();            // filtered + ordered list shown in study mode
+  let pos = 0;
+  let activeCat = "全部";
+  let query = "";
+  let flipped = false;
+
+  // ---- header ----
+  document.title = COURSE.title || "複習卡片";
+  document.getElementById("eyebrow").textContent = COURSE.title || "複習卡片";
+  document.getElementById("course-title").textContent = COURSE.title || "複習卡片";
+  const sub = document.getElementById("course-subtitle");
+  if (COURSE.subtitle) sub.textContent = COURSE.subtitle; else sub.style.display = "none";
+  document.getElementById("total-count").textContent = deck.length;
+
+  // ---- category chips ----
+  const cats = ["全部", ...Array.from(new Set(deck.map(c => c.category)))];
+  const chipBox = document.getElementById("category-chips");
+  cats.forEach(cat => {
+    const b = document.createElement("button");
+    b.className = "chip"; b.textContent = cat;
+    b.setAttribute("aria-pressed", cat === "全部" ? "true" : "false");
+    b.addEventListener("click", () => { activeCat = cat; syncChips(); applyFilter(); });
+    chipBox.appendChild(b);
+  });
+  // review-only toggle
+  const revChip = document.createElement("button");
+  revChip.className = "chip chip-review"; revChip.textContent = "只看待複習";
+  revChip.setAttribute("aria-pressed", "false");
+  let reviewOnly = false;
+  revChip.addEventListener("click", () => {
+    reviewOnly = !reviewOnly;
+    revChip.setAttribute("aria-pressed", reviewOnly ? "true" : "false");
+    applyFilter();
+  });
+  const spacer = document.createElement("span"); spacer.className = "chip-spacer";
+  chipBox.appendChild(spacer); chipBox.appendChild(revChip);
+
+  function syncChips(){
+    Array.from(chipBox.querySelectorAll(".chip")).forEach(c => {
+      if (c === revChip || c === spacer) return;
+      c.setAttribute("aria-pressed", c.textContent === activeCat ? "true" : "false");
+    });
+  }
+
+  // ---- search ----
+  document.getElementById("search").addEventListener("input", e => {
+    query = e.target.value.trim().toLowerCase();
+    applyFilter();
+  });
+
+  function matches(c){
+    if (activeCat !== "全部" && c.category !== activeCat) return false;
+    if (reviewOnly && status[c.id] !== "review") return false;
+    if (query){
+      const hay = (c.front + " " + c.back + " " + c.tags.join(" ") + " " + c.category).toLowerCase();
+      if (!hay.includes(query)) return false;
+    }
+    return true;
+  }
+
+  function applyFilter(){
+    const keepId = view[pos] ? view[pos].id : null;
+    view = deck.filter(matches);
+    const newIdx = view.findIndex(c => c.id === keepId);
+    pos = newIdx >= 0 ? newIdx : 0;
+    flipped = false;
+    renderCard();
+    renderGrid();
+  }
+
+  // ---- study card ----
+  const cardEl = document.getElementById("card");
+  function renderCard(){
+    if (!view.length){
+      document.getElementById("stage").querySelector(".card-scene").style.opacity = ".4";
+      document.getElementById("f-front").textContent = "沒有符合的卡片";
+      document.getElementById("f-cat").textContent = "—";
+      document.getElementById("f-no").textContent = "";
+      document.getElementById("b-back").textContent = "";
+      document.getElementById("f-tags").innerHTML = "";
+      document.getElementById("counter").textContent = "0 / 0";
+      cardEl.className = "card";
+      setPressed("mark-known", false); setPressed("mark-review", false);
+      return;
+    }
+    document.getElementById("stage").querySelector(".card-scene").style.opacity = "1";
+    const c = view[pos];
+    document.getElementById("f-cat").textContent = c.category;
+    document.getElementById("f-front").textContent = c.front;
+    document.getElementById("b-back").textContent = c.back;
+    document.getElementById("f-no").textContent = pad(pos+1) + " / " + pad(view.length);
+    document.getElementById("b-no").textContent = pad(pos+1) + " / " + pad(view.length);
+    const tagBox = document.getElementById("f-tags");
+    tagBox.innerHTML = "";
+    c.tags.forEach(t => { const s = document.createElement("span"); s.className="tag"; s.textContent="#"+t; tagBox.appendChild(s); });
+    document.getElementById("counter").textContent = (pos+1) + " / " + view.length;
+
+    cardEl.className = "card" + (flipped ? " is-flipped" : "");
+    const st = status[c.id];
+    if (st === "known") cardEl.classList.add("s-known");
+    if (st === "review") cardEl.classList.add("s-review");
+    setPressed("mark-known", st === "known");
+    setPressed("mark-review", st === "review");
+  }
+  function pad(n){ return String(n).padStart(2,"0"); }
+  function setPressed(id, on){ document.getElementById(id).setAttribute("aria-pressed", on ? "true":"false"); }
+
+  function flip(){ if(!view.length) return; flipped = !flipped; cardEl.classList.toggle("is-flipped", flipped); }
+  function go(delta){
+    if(!view.length) return;
+    pos = (pos + delta + view.length) % view.length;
+    flipped = false; renderCard();
+  }
+
+  cardEl.addEventListener("click", flip);
+  cardEl.addEventListener("keydown", e => {
+    if (e.key === " " || e.key === "Enter"){ e.preventDefault(); flip(); }
+  });
+  document.getElementById("prev").addEventListener("click", () => go(-1));
+  document.getElementById("next").addEventListener("click", () => go(1));
+
+  function mark(kind){
+    if(!view.length) return;
+    const c = view[pos];
+    if (status[c.id] === kind) delete status[c.id]; else status[c.id] = kind;
+    saveStatus();
+    if (reviewOnly) applyFilter(); else { renderCard(); renderGrid(); }
+    updateProgress();
+  }
+  document.getElementById("mark-known").addEventListener("click", () => mark("known"));
+  document.getElementById("mark-review").addEventListener("click", () => mark("review"));
+
+  // ---- keyboard shortcuts ----
+  document.addEventListener("keydown", e => {
+    if (e.target.tagName === "INPUT") return;
+    if (e.key === "ArrowLeft") go(-1);
+    else if (e.key === "ArrowRight") go(1);
+    else if (e.key === " " || e.key === "Enter"){ if(e.target===document.body){ e.preventDefault(); flip(); } }
+    else if (e.key.toLowerCase() === "k") mark("known");
+    else if (e.key.toLowerCase() === "r") mark("review");
+  });
+
+  // ---- shuffle / reset ----
+  document.getElementById("shuffle").addEventListener("click", () => {
+    for (let i = view.length - 1; i > 0; i--){
+      const j = Math.floor(Math.random() * (i + 1));
+      [view[i], view[j]] = [view[j], view[i]];
+    }
+    pos = 0; flipped = false; renderCard();
+  });
+  document.getElementById("reset").addEventListener("click", () => {
+    if (!confirm("確定清除你在這台裝置上的所有複習進度？")) return;
+    status = {}; saveStatus(); applyFilter(); updateProgress();
+  });
+
+  // ---- browse grid ----
+  function renderGrid(){
+    const grid = document.getElementById("grid");
+    grid.innerHTML = "";
+    document.getElementById("browse-count").textContent = view.length + " 張";
+    if (!view.length){
+      grid.innerHTML = '<div class="empty">找不到符合條件的卡片。<br>試試清除搜尋或切換分類。</div>';
+      return;
+    }
+    view.forEach((c, i) => {
+      const b = document.createElement("button");
+      b.className = "mini";
+      const st = status[c.id];
+      if (st) b.classList.add("s-" + st);
+      b.innerHTML =
+        '<div class="mini-cat">' +
+          (st ? '<span class="dot dot-'+st+'"></span>' : '') +
+          esc(c.category) +
+        '</div><div class="mini-front">' + esc(c.front) + '</div>';
+      b.addEventListener("click", () => {
+        pos = i; flipped = false; renderCard();
+        document.getElementById("stage").scrollIntoView({behavior:"smooth", block:"center"});
+      });
+      grid.appendChild(b);
+    });
+  }
+  function esc(s){ const d=document.createElement("div"); d.textContent=s; return d.innerHTML; }
+
+  // ---- progress ring ----
+  const RING_C = 2 * Math.PI * 27;
+  document.getElementById("ring-fg").style.strokeDasharray = RING_C;
+  function updateProgress(){
+    const known = deck.filter(c => status[c.id] === "known").length;
+    const review = deck.filter(c => status[c.id] === "review").length;
+    const pct = deck.length ? Math.round(known / deck.length * 100) : 0;
+    document.getElementById("ring-fg").style.strokeDashoffset = RING_C * (1 - known / (deck.length||1));
+    document.getElementById("ring-num").textContent = pct + "%";
+    document.getElementById("known-count").textContent = known;
+    document.getElementById("review-count").textContent = review;
+  }
+
+  // ---- persistence ----
+  function loadStatus(){
+    try { return JSON.parse(localStorage.getItem(STORE_KEY)) || {}; }
+    catch(e){ return {}; }
+  }
+  function saveStatus(){
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(status)); } catch(e){}
+  }
+
+  // ---- init ----
+  applyFilter();
+  updateProgress();
+})();
+</script>
+</body>
+</html>
