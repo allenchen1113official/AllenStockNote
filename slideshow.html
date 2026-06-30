@@ -61,6 +61,56 @@
   .slide-box.fading{ opacity:0; }
   .slide-img{ width:100%; height:auto; display:block; }
 
+  /* ── Cover slide (slide 1) ── */
+  .slide-cover{
+    width:100%; border-radius:12px; overflow:hidden;
+    box-shadow:var(--shadow); border:1px solid rgba(106,141,171,.18);
+    aspect-ratio:1376/768; position:relative;
+    display:flex; flex-direction:column; justify-content:center; align-items:flex-start;
+    padding:8% 10%;
+    background-color:#1E2832;
+    background-image:
+      linear-gradient(rgba(106,141,171,.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(106,141,171,.06) 1px, transparent 1px);
+    background-size:34px 34px;
+    color:#e6edf4;
+    transition:opacity .22s ease;
+  }
+  .slide-cover.fading{ opacity:0; }
+  .cov-eyebrow{
+    font-family:"JetBrains Mono",monospace; font-size:clamp(9px,1vw,13px);
+    letter-spacing:.18em; text-transform:uppercase; color:#6A8DAB;
+    display:flex; align-items:center; gap:12px; margin-bottom:4%;
+  }
+  .cov-eyebrow::before{ content:""; display:inline-block; width:24px; height:2px; background:#6A8DAB; }
+  .cov-title{
+    font-family:"Noto Sans TC","Inter",sans-serif;
+    font-size:clamp(26px,5.5vw,66px); font-weight:700;
+    color:#e8edf4; line-height:1.1; margin-bottom:3%;
+  }
+  .cov-title em{ font-style:normal; color:#6A8DAB; }
+  .cov-sub{
+    font-family:"Inter","Noto Sans TC",sans-serif;
+    font-size:clamp(10px,1.4vw,17px); color:#7A9BB8;
+    max-width:50ch; line-height:1.7; margin-bottom:6%;
+  }
+  .cov-pills{ display:flex; gap:2%; flex-wrap:wrap; }
+  .cov-pill{
+    font-family:"JetBrains Mono",monospace; font-size:clamp(7px,0.8vw,10px);
+    letter-spacing:.08em; padding:1.2% 2.8%;
+    background:rgba(106,141,171,.12); border:1px solid rgba(106,141,171,.25);
+    border-radius:20px; color:#7A9BB8; white-space:nowrap;
+  }
+  .cov-deco{
+    position:absolute; right:7%; top:50%; transform:translateY(-50%);
+    width:28%; opacity:.12; pointer-events:none;
+  }
+  .cov-corner{
+    position:absolute; bottom:6%; right:8%;
+    font-family:"JetBrains Mono",monospace; font-size:clamp(7px,0.75vw,9.5px);
+    color:rgba(106,141,171,.45); letter-spacing:.12em; text-align:right;
+  }
+
   /* HTML summary slide — Morandi blue, light & airy */
   .slide-html{
     width:100%; border-radius:12px; overflow:hidden;
@@ -173,9 +223,26 @@
 
   /* Overlay patches for slide 13 */
   .ovr-layer{ position:absolute; inset:0; pointer-events:none; }
-  .ovr-patch{ position:absolute; font-size:clamp(9px,1vw,13px); line-height:1.55; padding:5% 6%; border-radius:6px; }
-  .ovr-box-green{ background:rgba(211,227,238,0.92); border:1px solid #6A8DAB; color:#2C3A4A; }
-  .ovr-box-red{   background:rgba(228,221,239,0.92); border:1px solid #8B7EAF; color:#2C3A4A; }
+  .ovr-patch{
+    position:absolute;
+    font-family:"Noto Sans TC","Inter",system-ui,sans-serif;
+    font-size:clamp(9px,1.1vw,14px); line-height:1.6;
+    padding:4% 5%; border-radius:8px;
+  }
+  .ovr-patch b{
+    display:block; font-size:clamp(10px,1.25vw,16px); font-weight:700;
+    margin-bottom:6%; letter-spacing:.02em;
+  }
+  .ovr-box-green{
+    background:rgba(211,227,238,0.93); border:1px solid rgba(106,141,171,.5);
+    color:#2C3A4A; box-shadow:0 2px 12px rgba(44,58,74,.1);
+  }
+  .ovr-box-green b{ color:#456882; border-bottom:1px solid rgba(106,141,171,.3); padding-bottom:5%; }
+  .ovr-box-red{
+    background:rgba(228,221,239,0.93); border:1px solid rgba(139,126,175,.5);
+    color:#2C3A4A; box-shadow:0 2px 12px rgba(44,58,74,.1);
+  }
+  .ovr-box-red b{ color:#6B5F8F; border-bottom:1px solid rgba(139,126,175,.3); padding-bottom:5%; }
 
   @media(max-width:640px){
     .arrow-prev{ left:-12px; } .arrow-next{ right:-12px; }
@@ -246,7 +313,32 @@
   // overlays: [{x,y,w,h} all as % strings, cls, text}]
   // type 'img' = PNG slide; type 'html' = inline HTML slide
   const SLIDES = [
-    { type:'img', src:'slides/image1.png',  alt:'股票交易戰術指南' },
+    { type:'html', alt:'封面', html:`
+        <div class="slide-cover">
+          <div class="cov-eyebrow">Allen Stock Note · 技術 × 資金 × 心理</div>
+          <div class="cov-title">股票交易<br><em>戰術指南</em></div>
+          <div class="cov-sub">整合技術分析、資金控管與交易心理的完整操盤框架，<br>建立可重複執行的系統化決策流程。</div>
+          <div class="cov-pills">
+            <span class="cov-pill">道氏 · 波浪 · 慣性理論</span>
+            <span class="cov-pill">均線季線三大戰法</span>
+            <span class="cov-pill">資金控管 · 停損停利</span>
+            <span class="cov-pill">除權息策略</span>
+          </div>
+          <svg class="cov-deco" viewBox="0 0 220 130" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 115 C40 95 65 105 95 72 S148 28 210 12" stroke="#6A8DAB" stroke-width="3" stroke-linecap="round" fill="none"/>
+            <g stroke="#6A8DAB" stroke-width="7" stroke-linecap="round">
+              <line x1="30" y1="98" x2="30" y2="115"/>
+              <line x1="60" y1="88" x2="60" y2="108"/>
+              <line x1="95" y1="70" x2="95" y2="90"/>
+              <line x1="130" y1="50" x2="130" y2="72"/>
+              <line x1="165" y1="30" x2="165" y2="52"/>
+              <line x1="200" y1="14" x2="200" y2="36"/>
+            </g>
+            <circle cx="95" cy="72" r="5" fill="#6A8DAB" opacity=".7"/>
+            <circle cx="165" cy="30" r="5" fill="#6A8DAB" opacity=".7"/>
+          </svg>
+          <div class="cov-corner">共 16 張投影片 · 鍵盤 ← → 切換</div>
+        </div>` },
     { type:'img', src:'slides/image2.png',  alt:'獲利的三大基石與生存鐵律' },
     { type:'img', src:'slides/image3.png',  alt:'宏觀地圖：道氏理論的時空觀' },
     { type:'img', src:'slides/image4.png',  alt:'市場節奏與空間感：艾略特波浪理論' },
@@ -262,9 +354,9 @@
       type:'img', src:'slides/image13.png', alt:'基本面盲點破解：除權息行情背後的大戶邏輯',
       overlays:[
         { x:'2%',  y:'45%', w:'33%', h:'24%', cls:'ovr-box-green',
-          text:'戰術買點：\n除息前 2 個月，此時通常是低點，進場佈局。' },
+          html:'<b>戰術買點</b>除息前 2 個月，此時通常是低點，進場佈局。' },
         { x:'36%', y:'45%', w:'33%', h:'24%', cls:'ovr-box-red',
-          text:'戰術賣點：\n除息前 1 天果斷賣出，通常不參加除權息。' }
+          html:'<b>戰術賣點</b>除息前 1 天果斷賣出，通常不參加除權息。' }
       ]
     },
     { type:'img', src:'slides/image14.png', alt:'系統化決策流程：從圖表到執行的標準作業程序' },
@@ -336,7 +428,7 @@
     if (s.type === 'img'){
       d.innerHTML = `<img src="${s.src}" alt="${s.alt}" loading="lazy"><span class="thumb-no">${i+1}</span>`;
     } else {
-      d.innerHTML = `<div class="thumb-html-preview">總結</div><span class="thumb-no">${i+1}</span>`;
+      d.innerHTML = `<div class="thumb-html-preview">${s.alt}</div><span class="thumb-no">${i+1}</span>`;
     }
     d.addEventListener('click', () => goTo(i));
     thumbBox.appendChild(d);
@@ -361,8 +453,8 @@
           p.className = 'ovr-patch ' + o.cls;
           p.style.left = o.x; p.style.top = o.y;
           p.style.width = o.w; p.style.height = o.h;
-          p.style.whiteSpace = 'pre-line';
-          p.textContent = o.text;
+          if (o.html) p.innerHTML = o.html;
+          else { p.style.whiteSpace = 'pre-line'; p.textContent = o.text || ''; }
           layer.appendChild(p);
         });
         box.appendChild(layer);
