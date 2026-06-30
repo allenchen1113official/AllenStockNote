@@ -400,12 +400,30 @@ const CARDS = [
     font-family:"JetBrains Mono", monospace; }
 
   @media (max-width:560px){
-    .top{ padding:28px 0 18px; }
-    .head-row{ align-items:flex-start; }
-    .face{ padding:22px 20px; }
-    .card{ min-height:280px; }
+    .wrap{ padding:0 16px; }
+    .top{ padding:28px 0 16px; }
+    .head-row{ flex-direction:column; align-items:flex-start; gap:16px; }
+    .progress{ align-self:flex-end; }
+    .subtitle{ font-size:13.5px; }
+    /* filter chips: horizontal scroll, no wrap */
+    .chips{ flex-wrap:nowrap; overflow-x:auto; -webkit-overflow-scrolling:touch;
+      padding-bottom:4px; scrollbar-width:none; }
+    .chips::-webkit-scrollbar{ display:none; }
+    .chip-spacer{ display:none; }
+    /* card */
+    .face{ padding:20px 18px; }
+    .card{ min-height:260px; }
+    .card-text{ font-size:clamp(16px,4.8vw,20px); }
+    /* action buttons: icon only */
     .actions .btn span{ display:none; }
-    .actions .btn{ padding:10px 14px; }
+    .actions .btn{ padding:10px 12px; }
+    /* browse grid: 2 columns */
+    .grid{ grid-template-columns:1fr 1fr; }
+  }
+  @media (max-width:380px){
+    .grid{ grid-template-columns:1fr; }
+    .nav-row .btn span{ display:none; }
+    .nav-row .btn{ padding:9px 11px; }
   }
   @media (prefers-reduced-motion: reduce){
     .card{ transition:none; }
