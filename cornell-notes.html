@@ -84,6 +84,16 @@
     .row,.summary{ grid-template-columns:1fr; }
     .cue{ border-right:none; border-bottom:1px solid var(--hairline); }
     .sum-label{ border-right:none; border-bottom:1px solid var(--hairline); }
+    .wrap{ padding:28px 16px 40px; }
+    .sheet{ border-radius:12px; }
+    .sheet-head{ padding:18px 20px; }
+    h1{ font-size:clamp(24px,6vw,34px); }
+  }
+  @media (max-width:400px){
+    .wrap{ padding:20px 10px 32px; }
+    .sheet{ border-radius:8px; }
+    .cue,.notes,.summary{ padding:14px 14px; }
+    .sum-label{ padding:14px 14px; }
   }
 
   /* print: clean A4 */

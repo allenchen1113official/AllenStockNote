@@ -220,6 +220,8 @@
 
   .key-hint{ text-align:center; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--muted); margin:16px 0 32px; }
   .key{ display:inline-block; border:1px solid var(--hairline); padding:1px 7px; border-radius:4px; background:rgba(255,255,255,0.6); }
+  .swipe-hint{ display:none; text-align:center; font-family:"JetBrains Mono",monospace; font-size:11.5px; color:var(--muted); margin:16px 0 32px; letter-spacing:.04em; }
+  @media(max-width:640px){ .swipe-hint{ display:block; } }
 
   /* Overlay patches for slide 13 */
   .ovr-layer{ position:absolute; inset:0; pointer-events:none; }
@@ -245,10 +247,36 @@
   .ovr-box-red b{ color:#6B5F8F; border-bottom:1px solid rgba(139,126,175,.3); padding-bottom:5%; }
 
   @media(max-width:640px){
-    .arrow-prev{ left:-12px; } .arrow-next{ right:-12px; }
+    /* topbar */
+    .topbar{ padding:10px 14px; gap:10px; }
+    .topbar-title{ font-size:15px; }
+    .back-btn span{ display:none; }
+    /* stage */
+    .stage{ padding:16px 12px 10px; }
+    .arrow-prev{ left:-10px; } .arrow-next{ right:-10px; }
     .arrow{ width:36px; height:36px; }
+    /* nav row */
+    .nav-row{ gap:8px; margin-bottom:16px; }
+    .btn{ padding:8px 12px; font-size:13px; gap:5px; }
+    .btn-fs{ padding:8px 10px; }
+    /* thumbnails */
     .thumb-strip{ grid-template-columns:repeat(auto-fill,minmax(80px,1fr)); }
+    /* key hint — keyboard nav irrelevant on mobile; show swipe tip instead */
+    .key-hint{ display:none; }
+    /* summary slide columns */
     .sum-grid{ grid-template-columns:1fr; }
+    /* cover slide */
+    .cov-deco{ display:none; }
+    .cov-sub br{ display:none; }
+    .cov-pills{ gap:6px; }
+    .cov-pill{ padding:2% 4%; }
+    .cov-corner{ display:none; }
+  }
+  @media(max-width:400px){
+    .topbar-title{ display:none; }
+    .stage{ padding:12px 8px 8px; }
+    .arrow-prev{ left:-6px; } .arrow-next{ right:-6px; }
+    .btn svg{ display:none; }
   }
   @media(prefers-reduced-motion:reduce){
     .slide-box,.slide-html,.thumb,.progress-fill{ transition:none; }
@@ -260,7 +288,7 @@
 <header class="topbar">
   <a class="back-btn" href="index.html">
     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-    返回首頁
+    <span>返回首頁</span>
   </a>
   <span class="topbar-title">股票交易戰術指南</span>
   <span class="counter-badge" id="counter">1 / 16</span>
@@ -305,6 +333,7 @@
     <span class="key">End</span> 最後一張 &nbsp;·&nbsp;
     <span class="key">F</span> 全螢幕
   </p>
+  <p class="swipe-hint">← 左右滑動切換投影片 →</p>
 </main>
 
 <script>
